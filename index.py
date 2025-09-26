@@ -3,6 +3,7 @@ from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 import pyttsx3
 import os
+import sys
 import warnings
 import numpy as np
 
@@ -57,12 +58,14 @@ while True:
     user = input(user_prompt + white_color).strip()
     if user.lower() in ("exit","quit",".exit",".quit"):
         speak("Goodbye!")
+        engine.stop()
+        sys.exit(0)
         break
 
     answer, score = get_reply(user) if len(embeddings) > 0 else (None, 0)
 
     if score < 0.4 or answer is None:
-        teach_msg = "I don't know, can you teach me? :)"
+        teach_msg = "I don't know, can you teach me? 🙂"
         print(teach_color + white_color + f"MiniBot: {teach_msg}")
         speak(teach_msg)
 
