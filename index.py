@@ -3,6 +3,7 @@ from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 import pyttsx3
 import os
+import sys
 import warnings
 import numpy as np
 
@@ -16,9 +17,6 @@ def speak(text):
     for sentence in sentences:
         engine.say(sentence)
     engine.runAndWait()
-
-def clear():
-    os.system("cls" if os.name=="nt" else "clear")
 
 try:
     data = pd.read_csv("qa.csv")
@@ -42,29 +40,41 @@ def get_reply(user_text):
     idx = sims.argmax()
     return data["response"].iloc[idx], sims[0][idx]
 
-print("MiniBot ready. Type 'exit' to quit.\n")
+user_color = "\u001b[34;1m"
+minibot_color = "\u001b[33;1m"
+teach_color = "\u001b[32;1m"
+white_color = "\u001b[37;1m"
+
+user_prompt = user_color + "You: " + white_color
+minibot_prompt = minibot_color + "MiniBot: " + white_color
+teach_prompt = teach_color + "You (teach MiniBot): " + white_color
+
+print(minibot_prompt + "MiniBot ready. Type '.exit' to quit.\n")
+
 while True:
-    user = input("You: ").strip()
-    if user.lower() in ("exit","quit"):
+    user = input(user_prompt).strip()
+    if user.lower() in ("exit", "quit", ".exit", ".quit"):
         speak("Goodbye!")
-        break
+        engine.stop()
+        sys.exit(0)
 
     answer, score = get_reply(user) if len(embeddings) > 0 else (None, 0)
 
     if score < 0.4 or answer is None:
         teach_msg = "I don't know, can you teach me? :)"
-        print(f"MiniBot: {teach_msg}")
+        print(minibot_prompt + teach_msg)
         speak(teach_msg)
 
-        new_answer = input("You (teach MiniBot): ").strip()
+        new_answer = input(teach_prompt).strip()
         if new_answer:
             new_row = pd.DataFrame([[user, new_answer]], columns=["question","response"])
             data = pd.concat([data, new_row], ignore_index=True)
             data.to_csv("qa.csv", index=False)
             embeddings.append(model.encode([user])[0].tolist())
-            print("MiniBot: Got it! I'll remember that.")
-            speak("Got it! I'll remember that.")
+            confirmation = "Got it! I'll remember that."
+            print(minibot_prompt + confirmation)
+            speak(confirmation)
         continue
 
-    print(f"MiniBot: {answer}")
+    print(minibot_prompt + answer)
     speak(answer)
