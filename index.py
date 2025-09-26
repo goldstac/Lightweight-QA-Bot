@@ -42,10 +42,20 @@ def get_reply(user_text):
     idx = sims.argmax()
     return data["response"].iloc[idx], sims[0][idx]
 
-print("MiniBot ready. Type 'exit' to quit.\n")
+print("MiniBot ready. Type '.exit' to quit.\n")
+
+user_color = "\u001b[34;1m"
+minibot_color = "\u001b[33;1m"
+teach_color = "\u001b[32;1m"
+white_color = "\u001b[37;1m"
+
+user_prompt = user_color + "You: "
+minibot_prompt = minibot_color + "MiniBot: "
+teach_prompt = user_color + "You (teach MiniBot): "
+
 while True:
-    user = input("You: ").strip()
-    if user.lower() in ("exit","quit"):
+    user = input(user_prompt + white_color).strip()
+    if user.lower() in ("exit","quit",".exit",".quit"):
         speak("Goodbye!")
         break
 
@@ -53,18 +63,18 @@ while True:
 
     if score < 0.4 or answer is None:
         teach_msg = "I don't know, can you teach me? :)"
-        print(f"MiniBot: {teach_msg}")
+        print(teach_color + white_color + f"MiniBot: {teach_msg}")
         speak(teach_msg)
 
-        new_answer = input("You (teach MiniBot): ").strip()
+        new_answer = input(teach_prompt + white_color).strip()
         if new_answer:
             new_row = pd.DataFrame([[user, new_answer]], columns=["question","response"])
             data = pd.concat([data, new_row], ignore_index=True)
             data.to_csv("qa.csv", index=False)
             embeddings.append(model.encode([user])[0].tolist())
-            print("MiniBot: Got it! I'll remember that.")
+            print(minibot_prompt + white_color + "Got it! I'll remember that.")
             speak("Got it! I'll remember that.")
         continue
 
-    print(f"MiniBot: {answer}")
+    print(minibot_prompt + white_color + answer)
     speak(answer)
