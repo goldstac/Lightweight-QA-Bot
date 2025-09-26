@@ -1,88 +1,86 @@
-# Lightweight-QA-Bot
+# Lightweight-QA-Bot 🤖
 
-A lightweight, CPU-friendly chatbot that learns from your Q&A and responds in real-time. Built with Python, MiniBot uses **Sentence Transformers** for embeddings and **cosine similarity** to find the best answer.
-
----
-
-## Features
-
-- **CPU-friendly**: Runs smoothly on laptops without GPU.
-- **Self-learning**: Teaches itself new Q&A dynamically and stores them in `qa.csv`.
-- **Text-to-Speech**: Speaks responses using `pyttsx3`.
-- **Cached model**: Downloads once from Hugging Face and loads instantly afterward.
-- **Expandable**: Add more Q&A to the CSV to increase its knowledge base.
+A snappy, CPU-friendly chatbot that learns from your Q&A and responds in real-time! Built with Python, MiniBot uses Sentence Transformers for embeddings and cosine similarity to find the best match.
 
 ---
 
-## Installation
+## 🌟 Features
 
-1. Clone this repository:
-
-    ```bash
-    git clone https://github.com/goldstac/Lightweight-QA-Bot.git
-    cd Lightweight-QA-Bot
-    ```
-
-2. Install required Python modules:
-
-    ```bash
-    pip install pandas scikit-learn pyttsx3 sentence-transformers numpy
-    ```
-
-     **Note:** This version is CPU-friendly. No TensorFlow or GPU is needed.
+- **🧠 Self-learning:** Learns new Q&A on the fly and stores them in `qa.csv`.
+- **🗣️ Text-to-Speech:** Speaks answers using pyttsx3.
+- **💾 Cached model:** Downloads once from Hugging Face, loads instantly after.
+- **🧩 Expandable:** Add more Q&A to boost its brainpower.
+- **🧘 CPU-friendly:** Runs smoothly on laptops—no GPU needed!
 
 ---
 
-## Usage
+## ⚙️ Installation
 
-- Make sure `qa.csv` exists in the project folder. If not, MiniBot will create it automatically.
+Clone the repository:
+
+```bash
+git clone https://github.com/goldstac/Lightweight-QA-Bot.git
+cd Lightweight-QA-Bot
+```
+
+Install required Python modules:
+
+```bash
+pip install pandas scikit-learn pyttsx3 sentence-transformers numpy
+```
+
+> 💡 **Note:** CPU-friendly version. No TensorFlow or GPU required.
+
+---
+
+## 💬 Usage
+
+- Make sure `qa.csv` exists (MiniBot will create it if missing).
 - Run the chatbot:
 
-    ```bash
-    python index.py
-    ```
+  ```bash
+  python index.py
+  ```
 
 - Chat with MiniBot!
-
-    - Type a question and wait for a response.
-    - If MiniBot doesn’t know the answer, it will ask you to teach it:
-
-        ```
-        MiniBot: I don't know, can you teach me? :)
-        You (teach MiniBot): [Type your answer here]
-        ```
-
+  - Type a question and wait for a response.
+  - If MiniBot doesn’t know the answer, it will ask you to teach it:
+    - **MiniBot:** I don't know, can you teach me? 
+    - **You (teach MiniBot):** [Type your answer here]
     - MiniBot will remember it for next time.
-    - Type `exit` or `quit` to close the chatbot.
+
+- Type `.exit` or `.quit` to close the chatbot.
 
 ---
 
-## How It Works
+## 🧪 How It Works
 
-1. MiniBot loads all Q&A pairs from `qa.csv`.
-2. Each question is converted into an embedding vector using SentenceTransformer.
-3. When a user asks something, MiniBot encodes the input and finds the most similar question using cosine similarity.
-4. If the similarity score is low (<0.4), MiniBot asks you to teach it.
-5. New Q&A are saved to CSV and embeddings are updated dynamically.
+1. Loads all Q&A pairs from `qa.csv`.
+2. Converts questions into embedding vectors.
+3. Finds the closest match using cosine similarity.
+4. If similarity < 0.4, it asks you to teach it.
+5. Saves new Q&A and updates embeddings dynamically.
 
 ---
 
-## Example
+## 🧾 Example
 
-You: Hello  
+```
+You: Hello
 MiniBot: Hi there!
 
-You: Who is Trump?  
-MiniBot: I don't know, can you teach me? :)  
-You (teach MiniBot): Donald Trump is the 47th president of the USA  
+You: Who is Trump?
+MiniBot: I don't know, can you teach me? 
+You (teach MiniBot): Donald Trump is the 47th president of the USA
 MiniBot: Got it! I'll remember that.
 
-You: Who is Trump?  
+You: Who is Trump?
 MiniBot: Donald Trump is the 47th president of the USA
+```
 
 ---
 
-## Dependencies
+## 📦 Dependencies
 
 - pandas
 - scikit-learn
@@ -92,16 +90,15 @@ MiniBot: Donald Trump is the 47th president of the USA
 
 ---
 
-## License
+## 📜 License
 
-This project is licensed under the MIT License – see the LICENSE file for details.
-
-Feel free to update, modify, and contribute!
+MIT License — see [LICENSE](LICENSE) for details.  
+Feel free to fork, remix, and contribute! 🛠️
 
 ---
 
-## Notes
+## 📝 Notes
 
 - Model is cached locally in `MinibotModelCache` folder to avoid repeated downloads.
 - Works fully on CPU; no GPU or TensorFlow needed.
-- The more you teach MiniBot, the smarter it gets!
+- The more you teach MiniBot, the smarter it gets! 🧠💡
