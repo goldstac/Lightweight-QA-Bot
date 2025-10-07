@@ -47,9 +47,9 @@ minibot_color = "\u001b[33;1m"
 teach_color = "\u001b[32;1m"
 white_color = "\u001b[37;1m"
 
-user_prompt = user_color + "You: "
-minibot_prompt = minibot_color + "MiniBot: "
-teach_prompt = user_color + "You (teach MiniBot): "
+user_prompt = user_color + "You » "
+minibot_prompt = minibot_color + "MiniBot » "
+teach_prompt = user_color + "You (teach MiniBot)\n∘ "
 
 while True:
     user = input(user_prompt + white_color).strip()
@@ -63,7 +63,7 @@ while True:
 
     if score < 0.4 or answer is None:
         teach_msg = "I don't know, can you teach me? "
-        print(teach_color + white_color + f"MiniBot: {teach_msg}")
+        print(teach_color + "MiniBot » " + white_color + teach_msg)
         speak(teach_msg)
 
         new_answer = input(teach_prompt + white_color).strip()
