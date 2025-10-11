@@ -18,14 +18,19 @@ def speak(text):
         engine.say(sentence)
     engine.runAndWait()
 
-cache_path = os.path.join(os.getcwd(), "MinibotModelCache")
+home_dir = os.path.expanduser('~')
+minibot_dir = os.path.join(home_dir, '.minibot')
+os.makedirs(minibot_dir, exist_ok=True)
+
+cache_path = os.path.join(minibot_dir, 'MinibotModelCache')
 model = SentenceTransformer('all-MiniLM-L6-v2', cache_folder=cache_path)
 
+qa_path = os.path.join(minibot_dir, 'qa.csv')
 try:
-    data = pd.read_csv("qa.csv")
+    data = pd.read_csv(qa_path)
 except FileNotFoundError:
     data = pd.DataFrame(columns=["question","response"])
-    data.to_csv("qa.csv", index=False)
+    data.to_csv(qa_path, index=False)
 
 if len(data) > 0:
     embeddings = model.encode(data["question"].tolist(), show_progress_bar=False).tolist()
@@ -70,7 +75,7 @@ while True:
         if new_answer:
             new_row = pd.DataFrame([[user, new_answer]], columns=["question","response"])
             data = pd.concat([data, new_row], ignore_index=True)
-            data.to_csv("qa.csv", index=False)
+            data.to_csv(qa_path, index=False)
             embeddings.append(model.encode([user])[0].tolist())
             print(minibot_prompt + white_color + "Got it! I'll remember that.")
             speak("Got it! I'll remember that.")
