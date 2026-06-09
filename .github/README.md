@@ -2,6 +2,9 @@
 <img src="assets/logo.png" alt="LOGO" width="200">
 A snappy, CPU-friendly chatbot that learns from your Q&A and responds in real-time! Built with Python, MiniBot uses Sentence Transformers for embeddings and cosine similarity to find the best match.
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+
 ## 🌟 Features
 
 - **🧠 Self-learning:** Learns new Q&A on the fly and stores them in `qa.csv`.
