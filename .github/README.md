@@ -3,6 +3,7 @@
 A snappy, CPU-friendly chatbot that learns from your Q&A and responds in real-time! Built with Python, MiniBot uses Sentence Transformers for embeddings and cosine similarity to find the best match.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 
 
 ## 🌟 Features
