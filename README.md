@@ -1,5 +1,5 @@
 # Lightweight-QA-Bot 🤖
-
+<img src="logo.png" alt="LOGO" width="200">
 A snappy, CPU-friendly chatbot that learns from your Q&A and responds in real-time! Built with Python, MiniBot uses Sentence Transformers for embeddings and cosine similarity to find the best match.
 
 ## 🌟 Features
