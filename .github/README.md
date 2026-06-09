@@ -4,6 +4,7 @@ A snappy, CPU-friendly chatbot that learns from your Q&A and responds in real-ti
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![CPU Only](https://img.shields.io/badge/hardware-CPU--friendly-green.svg)](#)
 
 
 ## 🌟 Features
