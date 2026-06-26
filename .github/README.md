@@ -1,100 +1,54 @@
-# Lightweight-QA-Bot 🤖
-<img src="assets/logo.png" alt="LOGO" width="200">
-A snappy, CPU-friendly chatbot that learns from your Q&A and responds in real-time! Built with Python, MiniBot uses Sentence Transformers for embeddings and cosine similarity to find the best match.
+# Lightweight QA Bot
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
-[![CPU Only](https://img.shields.io/badge/hardware-CPU--friendly-green.svg)](#)
+A CPU-friendly question-answering bot that learns from your Q&A pairs on the fly.
+Uses **TF-IDF vectorization** (instead of heavy neural models) + a **C++ extension** for
+blazing-fast cosine similarity search.
 
+## Features
 
-## 🌟 Features
+- **Self-learning** — teaches itself new Q&A at runtime, persisted to `~/.minibot/qa.csv`
+- **TF-IDF based** — no large model downloads, minimal RAM, instant startup
+- **C++ accelerated** — similarity search runs in native code via a Python C extension
+- **Potato-friendly** — runs on any machine with Python 3.8+; no GPU, no heavy deps
+- **Modular** — clean separation into `src/storage.py`, `src/engine.py`, and `csrc/`
 
-- **🧠 Self-learning:** Learns new Q&A on the fly and stores them in `qa.csv`.
-- **🗣️ Text-to-Speech:** Speaks answers using pyttsx3.
-- **💾 Cached model:** Downloads once from Hugging Face, loads instantly after.
-- **🧩 Expandable:** Add more Q&A to boost its brainpower.
-- **🧘 CPU-friendly:** Runs smoothly on laptops—no GPU needed!
+## Prerequisites
 
-## ⚙️ Installation
+- Python 3.8+
+- C++ compiler (g++ or clang) with Python dev headers
+- `pip install pandas scikit-learn`
 
-Clone the repository:
-
-```bash
-git clone https://github.com/goldstac/Lightweight-QA-Bot.git
-cd Lightweight-QA-Bot
-```
-
-Install required Python modules:
+## Build & Run
 
 ```bash
-pip install pandas scikit-learn pyttsx3 sentence-transformers numpy
+python setup.py build_ext --inplace
+python main.py
 ```
 
-> 💡 **Note:** CPU-friendly version. No TensorFlow or GPU required.
+## Usage
 
-## 💬 Usage
-
-- Make sure `qa.csv` exists (MiniBot will create it if missing).
-- Run the chatbot:
-
-  ```bash
-  python index.py
-  ```
-
-- Chat with MiniBot!
-
-  - Type a question and wait for a response.
-  - If MiniBot doesn’t know the answer, it will ask you to teach it:
-    - **MiniBot:** I don't know, can you teach me?
-    - **You (teach MiniBot):** [Type your answer here]
-    - MiniBot will remember it for next time.
-
-- Type `.exit` or `.quit` to close the chatbot.
-
-## 🧪 How It Works
-
-1. Loads all Q&A pairs from `qa.csv`.
-2. Converts questions into embedding vectors.
-3. Finds the closest match using cosine similarity.
-4. If similarity < 0.4, it asks you to teach it.
-5. Saves new Q&A and updates embeddings dynamically.
-
-## 🧾 Example
-
-```
-You » Hello
-
-MiniBot » Hi there!
-
-You » Who is Trump?
-
-MiniBot » I don't know, can you teach me?
-
-You (teach MiniBot)
-∘ Donald Trump is the 47th president of the USA
-
-MiniBot » Got it! I'll remember that.
-
-You » Who is Trump?
-
-MiniBot » Donald Trump is the 47th president of the USA
+```bash
+python main.py
 ```
 
-## 📦 Dependencies
+- Type a question; the bot replies from what it knows.
+- If unsure (similarity < 0.4), it asks you to teach it.
+- Type `.exit` to quit.
 
-- pandas
-- scikit-learn
-- pyttsx3
-- sentence-transformers
-- numpy
+## Structure
 
-## 📜 License
+```
+├── main.py              # CLI entry point
+├── src/
+│   ├── engine.py        # QA engine (TF-IDF + C++ search)
+│   ├── storage.py       # CSV persistence layer
+│   └── csearch.*.so     # compiled C++ extension
+├── csrc/
+│   ├── csearch.cpp      # Python C extension
+│   └── csearch.h        # cosine similarity kernel
+└── setup.py             # build script for C extension
+```
 
-MIT License — see [LICENSE](LICENSE) for details.  
-Feel free to fork, remix, and contribute! 🛠️
+## License
 
-## 📝 Notes
-
-- Model is cached locally in `MinibotModelCache` folder to avoid repeated downloads.
-- Works fully on CPU; no GPU or TensorFlow needed.
-- The more you teach MiniBot, the smarter it gets! 🧠💡
+MIT
